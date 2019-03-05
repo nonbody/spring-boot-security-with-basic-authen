@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String user) throws UsernameNotFoundException {
-        log.info(user);
+        log.info("User : {}", user);
         return User.withUsername("admin").password("{noop}password").roles("ADMIN").build();
     }
 }
