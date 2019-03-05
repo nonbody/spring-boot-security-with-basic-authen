@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.service.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,12 +19,12 @@ public class SecConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/a**", "/b**").authenticated().and().httpBasic();
     }
 
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user").password("{noop}password").roles("USER")
-                .and()
-                .withUser("admin").password("{noop}password").roles("USER", "ADMIN");
+        auth.userDetailsService(myUserDetailsService);
     }
 
 }
